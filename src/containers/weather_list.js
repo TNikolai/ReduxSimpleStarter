@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import SparkComponent from '../components/spark_component';
+import GoogleMap from '../components/google_map';
 
 
 
@@ -11,18 +12,14 @@ renderWeather(cityWeather) {
     const temps = cityWeather.list.map(weather => weather.main.temp);
     const pressure = cityWeather.list.map(weather => weather.main.pressure);
     const humidity = cityWeather.list.map(weather => weather.main.humidity);  
+    const { lon, lat } = cityWeather.city.coord;
+
     return (
         <tr key={name} >
-            <td>{ name }</td>
-            <td>
-               <SparkComponent data={temps} color="blue" units="K" />
-            </td>
-             <td>
-               <SparkComponent data={pressure} color="green" units="hPa" />
-            </td>
-              <td>
-               <SparkComponent data={humidity} color="red" units="%" />
-            </td>
+            <td> <GoogleMap lon={lon} lat={lat}> </GoogleMap> </td>
+            <td> <SparkComponent data={temps} color="blue" units="K" /> </td>
+            <td> <SparkComponent data={pressure} color="green" units="hPa" /> </td>
+            <td> <SparkComponent data={humidity} color="red" units="%" /> </td>
         </tr>
     )
 }
@@ -39,7 +36,7 @@ renderWeather(cityWeather) {
                         <th>Pressure hPa </th>
                         <th>Humidity % </th>
                     </tr>
-                </thread>
+                </thread> 
                 <tbody>
                     {this.props.weather.map(this.renderWeather)}
                 </tbody>
